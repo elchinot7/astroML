@@ -40,7 +40,7 @@ except:
     use_sklearn_KDE = False
 
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 # This function adjusts matplotlib settings for a uniform feel in the textbook.
 # Note that with usetex=True, fonts are rendered with LaTeX.  This may
 # result in an error if LaTeX is not installed on your system.  In that case,
@@ -48,7 +48,7 @@ except:
 from astroML.plotting import setup_text_plots
 setup_text_plots(fontsize=8, usetex=True)
 
-#------------------------------------------------------------
+# ------------------------------------------------------------
 # Generate our data: a mix of several Cauchy distributions
 #  this is the same data used in the Bayesian Blocks figure
 np.random.seed(0)
@@ -66,7 +66,7 @@ np.random.shuffle(x)
 x = x[x > -10]
 x = x[x < 30]
 
-#------------------------------------------------------------
+# ------------------------------------------------------------
 # plot the results
 fig = plt.figure(figsize=(5, 5))
 fig.subplots_adjust(bottom=0.08, top=0.95, right=0.95, hspace=0.1)

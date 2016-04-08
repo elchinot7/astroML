@@ -17,7 +17,6 @@ two components. Contours are based on a 10,000 point MCMC chain.
 #    https://groups.google.com/forum/#!forum/astroml-general
 import numpy as np
 from matplotlib import pyplot as plt
-
 from scipy.special import gamma
 from scipy.stats import norm
 from sklearn.neighbors import BallTree
@@ -28,7 +27,7 @@ import scipy
 scipy.derivative = scipy.misc.derivative
 import pymc
 
-#----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 # This function adjusts matplotlib settings for a uniform feel in the textbook.
 # Note that with usetex=True, fonts are rendered with LaTeX.  This may
 # result in an error if LaTeX is not installed on your system.  In that case,
@@ -67,7 +66,7 @@ def estimate_bayes_factor(traces, logp, r=0.05, return_list=False):
         return p50, 0.7413 * (p75 - p25)
 
 
-#------------------------------------------------------------
+# ------------------------------------------------------------
 # Generate the data
 mu1_in = 0
 sigma1_in = 0.3
@@ -82,7 +81,7 @@ gm = GaussianMixture1D([mu1_in, mu2_in],
                        [ratio_in, 1])
 x_sample = gm.sample(N)
 
-#------------------------------------------------------------
+# ------------------------------------------------------------
 # Set up pyMC model: single gaussian
 #  2 parameters: (mu, sigma)
 M1_mu = pymc.Uniform('M1_mu', -5, 5, value=0)
@@ -104,7 +103,7 @@ model1 = dict(M1_mu=M1_mu, M1_log_sigma=M1_log_sigma,
               M1_tau=M1_tau, M1=M1)
 
 
-#------------------------------------------------------------
+# ------------------------------------------------------------
 # Set up pyMC model: double gaussian
 #  5 parameters: (mu1, mu2, sigma1, sigma2, ratio)
 
@@ -124,7 +123,7 @@ def doublegauss_like(x, mu1, mu2, sigma1, sigma2, ratio):
 def rdoublegauss(mu1, mu2, sigma1, sigma2, ratio, size=None):
     """random variable from double gaussian"""
     r1 = ratio / (1. + ratio)
-    r2 = 1 - r1
+    # r2 = 1 - r1
     R = np.asarray(np.random.random(size))
 
     Rshape = R.shape
@@ -174,7 +173,7 @@ model2 = dict(M2_mu1=M2_mu1, M2_mu2=M2_mu2,
               M2_ratio=M2_ratio, M2=M2)
 
 
-#------------------------------------------------------------
+# ------------------------------------------------------------
 # Set up MCMC sampling
 def compute_MCMC_models(Niter=10000, burn=1000, rseed=0):
     pymc.numpy.random.seed(rseed)
@@ -199,13 +198,13 @@ def compute_MCMC_models(Niter=10000, burn=1000, rseed=0):
 trace1, logp1, trace2, logp2 = compute_MCMC_models()
 
 
-#------------------------------------------------------------
+# ------------------------------------------------------------
 # Compute Odds ratio with density estimation technique
 BF1, dBF1 = estimate_bayes_factor(trace1, logp1, r=0.02)
 BF2, dBF2 = estimate_bayes_factor(trace2, logp2, r=0.05)
 
 
-#------------------------------------------------------------
+# ------------------------------------------------------------
 # Plot the results
 fig = plt.figure(figsize=(5, 5))
 
